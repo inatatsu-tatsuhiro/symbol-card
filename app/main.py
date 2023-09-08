@@ -1,6 +1,6 @@
 
 
-from fastapi import FastAPI, Response, Request
+from fastapi import FastAPI, Response
 from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 import requests
@@ -14,14 +14,8 @@ font_32 = ImageFont.truetype(font_path, 32)
 font_24 = ImageFont.truetype(font_path, 24)
 font_16 = ImageFont.truetype(font_path, 16)
 font_12 = ImageFont.truetype(font_path, 12)
-address_label = "Symbol Address"
+address_label = "Inatatsu Address"
 node = 'https://sym-main-03.opening-line.jp:3001'
-
-@app.middleware("http")
-async def add_my_headers(request: Request, call_next):
-    response = await call_next(request)
-    response.headers["Cache-Control"] = "no-cache, no-store"
-    return response
 
 @app.get("/")
 def read_root():
@@ -55,5 +49,6 @@ def getImage(addr):
     base_image.save(img_bytes, format='PNG')
     img_bytes = img_bytes.getvalue()
 
-    return Response(content=img_bytes, media_type="image/png")
-
+    response = Response(content=img_bytes, media_type="image/png")
+    response.headers["Cache-Control"] = "max-age=0"
+    return response
