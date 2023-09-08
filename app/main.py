@@ -1,6 +1,6 @@
 
 
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, Response, Request
 from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 import requests
@@ -17,7 +17,11 @@ font_12 = ImageFont.truetype(font_path, 12)
 address_label = "Symbol Address"
 node = 'https://sym-main-03.opening-line.jp:3001'
 
-
+@app.middleware("http")
+async def add_my_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["Cache-Control"] = "no-cache, no-store"
+    return response
 
 @app.get("/")
 def read_root():
