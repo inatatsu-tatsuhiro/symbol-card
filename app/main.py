@@ -14,7 +14,7 @@ font_32 = ImageFont.truetype(font_path, 32)
 font_24 = ImageFont.truetype(font_path, 24)
 font_16 = ImageFont.truetype(font_path, 16)
 font_12 = ImageFont.truetype(font_path, 12)
-address_label = "Inatatsu Address"
+address_label = "Symbol Address"
 node = 'https://sym-main-03.opening-line.jp:3001'
 
 @app.get("/")
